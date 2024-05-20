@@ -1,15 +1,27 @@
-// app.module.ts
-
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ChatController } from './chat/chat.controller'; // Import the ChatController
-import { ChatService } from './chat/chat.service'; // Import the ChatService
-import { ChatModule } from './chat/chat.module';
+import { ChatController } from './modules/chat/chat.controller';
+import { ChatService } from './modules/chat/chat.service';
+import { ChatModule } from './modules/chat/chat.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { AuthController } from './modules/auth/auth.controller';
+import { AuthService } from './modules/auth/auth.service';
+import { UsersService } from './modules/users/users.service';
+import { UsersModule } from './modules/users/users.module';
+import { UserEntity } from './modules/entities/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { configService } from './config/config.service';
 
-ConfigModule.forRoot();
 @Module({
-  imports: [ChatModule], // Import any modules your application requires
-  controllers: [ChatController], // Add the ChatController to the controllers array
-  providers: [ChatService], // Add any services your application requires
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
+    TypeOrmModule.forFeature([UserEntity]),
+    ChatModule,
+    AuthModule,
+    UsersModule,
+  ],
+  controllers: [ChatController, AuthController],
+  providers: [ChatService, AuthService, UsersService],
 })
 export class AppModule {}

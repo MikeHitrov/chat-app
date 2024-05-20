@@ -1,9 +1,7 @@
-// chat.controller.ts
-
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { ChatService } from './chat.service';
 
-@Controller('chat') // Base path for all routes in this controller
+@Controller('chat')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
