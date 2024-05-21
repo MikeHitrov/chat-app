@@ -7,7 +7,7 @@ import {
   Typography,
   Box,
 } from "@material-ui/core";
-import Popup from './Popup';
+import Popup from "./Popup";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -30,7 +30,7 @@ const Login: React.FC = () => {
 
   return (
     <Container maxWidth="sm">
-      <Popup open={open} message={'Register failed!'} />
+      <Popup open={open} message={"Register failed!"} />
       <Box
         display="flex"
         flexDirection="column"

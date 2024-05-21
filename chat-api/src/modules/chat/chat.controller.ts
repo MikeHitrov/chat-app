@@ -1,12 +1,24 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ChatService } from './chat.service';
+import { Message } from '../entities/message.entity';
 
 @Controller('chat')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
-  @Post('sendMessage') // POST endpoint to send a message
+  @Post('sendMessage')
   async sendMessage(@Body() body: any): Promise<string> {
-    return this.chatService.getBotResponse(body.message);
+    await this.chatService.saveMessage(body.content, body.userID, 'user');
+
+    const botResponse = await this.chatService.getBotResponse(body.content);
+
+    await this.chatService.saveMessage(botResponse, body.userID, 'bot');
+
+    return botResponse;
+  }
+
+  @Get('getMessages/:userID')
+  async findByUser(@Param('userID') userID: number): Promise<Message[]> {
+    return this.chatService.listMessagesByUserId(userID);
   }
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
 import { configService } from '../../config/config.service';
+import { MessagesService } from '../messages/messages.service';
+import { Message } from '../entities/message.entity';
 
 const openai = new OpenAI({
   apiKey: configService.getValue('OPENAI_API_KEY'),
@@ -9,6 +11,8 @@ const openai = new OpenAI({
 
 @Injectable()
 export class ChatService {
+  constructor(private messagesService: MessagesService) {}
+
   async getBotResponse(message: string): Promise<string> {
     try {
       const botResponse = await openai.chat.completions.create({
@@ -20,5 +24,17 @@ export class ChatService {
     } catch (error) {
       throw new Error('No response form OpenAI');
     }
+  }
+
+  async saveMessage(
+    content: string,
+    userID: number,
+    sender: string,
+  ): Promise<void> {
+    this.messagesService.saveMessage({ content, userID, sender });
+  }
+
+  async listMessagesByUserId(userID: number): Promise<Message[]> {
+    return await this.messagesService.findAllByUser(userID);
   }
 }

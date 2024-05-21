@@ -6,7 +6,6 @@ import {
   Paper,
   TextField,
   Button,
-  makeStyles,
 } from "@material-ui/core";
 import Popup from "./Popup";
 import useStyles from "./ChatView.style";

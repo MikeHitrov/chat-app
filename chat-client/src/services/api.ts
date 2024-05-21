@@ -1,8 +1,23 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "http://localhost:3000",
-});
+const API_URL = "http://localhost:3000";
 
-export const sendMessage = (message: string) =>
-  api.post("chat/sendMessage", { message });
+export const sendMessage = (message: {
+  content: string;
+  sender: string;
+  userID: number;
+}) => {
+  return axios.post(`${API_URL}/chat/sendMessage`, message, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
+export const getMessagesByUser = (userID: number) => {
+  return axios.get(`${API_URL}/chat/getMessages/${userID}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
