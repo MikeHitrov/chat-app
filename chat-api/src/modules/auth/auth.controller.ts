@@ -1,13 +1,14 @@
 import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Public } from '../../helpers/public-strategy';
+import { AuthService } from './auth.service';
 import { BaseUser } from 'src/dto/user/base-user.dto';
-import { Public } from './public-strategy';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')

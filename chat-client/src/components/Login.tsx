@@ -32,14 +32,22 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container
+      maxWidth="sm"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       {open ? <Popup message={"Login failed!"} /> : <></>}
       <Box
         display="flex"
         flexDirection="column"
-        justifyContent="center"
         alignItems="center"
-        minHeight="100vh"
+        style={{ textAlign: "center" }}
       >
         <Typography variant="h4" gutterBottom>
           Login
@@ -75,7 +83,7 @@ const Login: React.FC = () => {
           onClick={() => window.location.replace("/register")}
           style={{ marginLeft: "16px", marginTop: "16px" }}
         >
-          Regiser
+          Register
         </Button>
       </Box>
     </Container>

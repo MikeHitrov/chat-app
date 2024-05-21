@@ -31,7 +31,16 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container
+      maxWidth="sm"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       {open ? <Popup message={"Register failed!"} /> : <></>}
       <Box
         display="flex"
@@ -39,6 +48,7 @@ const Login: React.FC = () => {
         justifyContent="center"
         alignItems="center"
         minHeight="100vh"
+        style={{ textAlign: "center" }}
       >
         <Typography variant="h4" gutterBottom>
           Register

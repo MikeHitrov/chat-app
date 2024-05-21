@@ -15,9 +15,11 @@ export const useChat = () => {
   useEffect(() => {
     const userID = parseJWT();
 
-    getMessagesByUser(userID).then((response) => {
-      setMessages(response.data);
-    });
+    if (userID !== -1) {
+      getMessagesByUser(userID).then((response) => {
+        setMessages(response.data);
+      });
+    }
 
     socket.on("message", (message: Message) => {
       setMessages((prev) => [...prev, message]);
@@ -35,7 +37,9 @@ export const useChat = () => {
       content,
       timestamp: new Date(),
     };
+
     setMessages((prev) => [...prev, userMessage]);
+
     const response = await sendMessageApi({
       sender: "user",
       content,
@@ -47,6 +51,7 @@ export const useChat = () => {
       content: response.data,
       timestamp: new Date(),
     };
+
     setMessages((prev) => [...prev, botMessage]);
   };
 

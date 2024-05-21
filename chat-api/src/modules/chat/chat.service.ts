@@ -22,7 +22,7 @@ export class ChatService {
 
       return botResponse.choices[0].message.content;
     } catch (error) {
-      throw new Error('No response form OpenAI');
+      throw new Error('No response form OpenAI!');
     }
   }
 
