@@ -38,6 +38,7 @@ export class AuthController {
       password: signUpDto.password,
       createdAt: new Date(),
     };
+
     return this.authService.signUp(payload);
   }
 }

@@ -17,13 +17,19 @@ export class ChatController {
     type: [BotMessage],
   })
   async sendMessage(@Body() body: any): Promise<string> {
-    await this.chatService.saveMessage(body.content, body.userID, 'user');
+    try {
+      await this.chatService.saveMessage(body.content, body.userID, 'user');
 
-    const botResponse = await this.chatService.getBotResponse(body.content);
+      const botResponse = await this.chatService.getBotResponse(body.content);
 
-    await this.chatService.saveMessage(botResponse, body.userID, 'bot');
+      await this.chatService.saveMessage(botResponse, body.userID, 'bot');
 
-    return botResponse;
+      return botResponse;
+    } catch (error) {
+      throw new Error(
+        `Unable to recieve bot message and save messages to database.\n Error:${error}`,
+      );
+    }
   }
 
   @ApiOperation({ summary: 'List user messages' })
@@ -34,6 +40,10 @@ export class ChatController {
   })
   @Get('getMessages/:userID')
   async findByUser(@Param('userID') userID: number): Promise<Message[]> {
-    return this.chatService.listMessagesByUserId(userID);
+    try {
+      return this.chatService.listMessagesByUserId(userID);
+    } catch (error) {
+      throw new Error(`Unable to list user caht history.\n Error:${error}`);
+    }
   }
 }
