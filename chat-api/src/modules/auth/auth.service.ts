@@ -12,26 +12,34 @@ export class AuthService {
   ) {}
 
   async signIn(username, password) {
-    const user = await this.usersService.findOneBy(username);
+    try {
+      const user = await this.usersService.findOneBy(username);
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException();
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        throw new UnauthorizedException();
+      }
+
+      const payload = { id: user.id, username: user.username };
+
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      };
+    } catch (error) {
+      throw new Error(`Unable to login user.\n Error:${error}`);
     }
-
-    const payload = { id: user.id, username: user.username };
-
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
   }
 
   async signUp(userData: CreateUserDto) {
-    const user = await this.usersService.create(userData);
+    try {
+      const user = await this.usersService.create(userData);
 
-    const payload = { id: user.id, username: user.username };
+      const payload = { id: user.id, username: user.username };
 
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      };
+    } catch (error) {
+      throw new Error(`Unable to create user.\n Error:${error}`);
+    }
   }
 }
