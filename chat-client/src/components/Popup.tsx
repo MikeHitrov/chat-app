@@ -1,28 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Snackbar } from "@material-ui/core";
+import { PopupProps } from "../types";
 
-interface PopupProps {
-  open: boolean;
-  message: string;
-}
-
-const Popup: React.FC<PopupProps> = ({ open, message }) => {
-  const [isOpen, setIsOpen] = useState(open);
-
-  useEffect(() => {
-    setIsOpen(open);
-  }, [open]);
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
+const Popup: React.FC<PopupProps> = ({ message }) => {
   return (
     <Snackbar
-      open={isOpen}
+      open={true}
       message={message}
-      onClose={handleClose}
-      autoHideDuration={5000}
+      autoHideDuration={2000}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     />
   );

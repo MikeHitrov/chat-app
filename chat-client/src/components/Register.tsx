@@ -13,10 +13,11 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [open, setOpen] = React.useState(false);
+  const API_URL = "http://localhost:3000";
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/auth/signup", {
+      const response = await axios.post(API_URL + "/auth/signup", {
         username,
         password,
       });
@@ -24,13 +25,14 @@ const Login: React.FC = () => {
       window.location.replace("/chat");
     } catch (error) {
       setOpen(true);
+      setTimeout(() => setOpen(false), 2000);
       console.error("Register failed", error);
     }
   };
 
   return (
     <Container maxWidth="sm">
-      <Popup open={open} message={"Register failed!"} />
+      {open ? <Popup message={"Register failed!"} /> : <></>}
       <Box
         display="flex"
         flexDirection="column"

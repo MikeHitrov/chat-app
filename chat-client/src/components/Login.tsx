@@ -13,24 +13,27 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [open, setOpen] = React.useState(false);
+  const API_URL = "http://localhost:3000";
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
+      const response = await axios.post(API_URL + "/auth/login", {
         username,
         password,
       });
+
       localStorage.setItem("token", response.data.access_token);
       window.location.replace("/chat");
     } catch (error) {
       setOpen(true);
+      setTimeout(() => setOpen(false), 2000);
       console.error("Login failed", error);
     }
   };
 
   return (
     <Container maxWidth="sm">
-      <Popup open={open} message={"Login failed!"} />
+      {open ? <Popup message={"Login failed!"} /> : <></>}
       <Box
         display="flex"
         flexDirection="column"

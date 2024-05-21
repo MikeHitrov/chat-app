@@ -25,6 +25,7 @@ const ChatView: React.FC<ChatViewProps> = ({ messages, onSendMessage }) => {
       setInput("");
       await onSendMessage(input);
       setOpen(true);
+      setTimeout(() => setOpen(false), 2000);
     }
   };
 
@@ -35,7 +36,7 @@ const ChatView: React.FC<ChatViewProps> = ({ messages, onSendMessage }) => {
 
   return (
     <Container maxWidth="md" className={classes.chatView}>
-      <Popup open={open} message={"New message from bot!"} />
+      {open ? <Popup message={"New message from bot!"} /> : <></>}
       <Typography variant="h5" align="center" gutterBottom>
         Chat App
       </Typography>
