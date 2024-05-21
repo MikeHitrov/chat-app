@@ -9,43 +9,17 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import Popup from "./Popup";
-
-const useStyles = makeStyles((theme) => ({
-  chatView: {
-    display: "flex",
-    flexDirection: "column",
-    height: "100%",
-  },
-  messages: {
-    flex: 1,
-    overflowY: "auto",
-    padding: theme.spacing(2),
-  },
-  message: {
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(1),
-    maxWidth: "70%",
-    alignSelf: "flex-start",
-  },
-  userMessage: {
-    backgroundColor: "#DCF8C6",
-    alignSelf: "flex-end",
-  },
-  input: {
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(2),
-  },
-  inputField: {
-    flex: 1,
-    marginRight: theme.spacing(2),
-  },
-}));
+import useStyles from "./ChatView.style";
 
 const ChatView: React.FC<ChatViewProps> = ({ messages, onSendMessage }) => {
   const classes = useStyles();
+  const token = localStorage.getItem("token");
   const [input, setInput] = React.useState("");
   const [open, setOpen] = React.useState(false);
+
+  if (!token) {
+    window.location.replace("/login");
+  }
 
   const handleSend = async () => {
     if (input.trim()) {
@@ -55,12 +29,20 @@ const ChatView: React.FC<ChatViewProps> = ({ messages, onSendMessage }) => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.replace("/login");
+  };
+
   return (
     <Container maxWidth="md" className={classes.chatView}>
       <Popup open={open} message={"New message from bot!"} />
       <Typography variant="h5" align="center" gutterBottom>
         Chat App
       </Typography>
+      <Button variant="contained" color="primary" onClick={handleLogout}>
+        Logout
+      </Button>
       <Paper className={classes.messages}>
         {messages.map((msg, index) => (
           <Paper
