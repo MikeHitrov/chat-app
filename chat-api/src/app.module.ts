@@ -8,7 +8,7 @@ import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
 import { UsersService } from './modules/users/users.service';
 import { UsersModule } from './modules/users/users.module';
-import { UserEntity } from './modules/entities/user.entity';
+import { User } from './modules/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from './config/config.service';
 
@@ -16,7 +16,7 @@ import { configService } from './config/config.service';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([User]),
     ChatModule,
     AuthModule,
     UsersModule,

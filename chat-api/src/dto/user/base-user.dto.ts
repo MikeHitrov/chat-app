@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 export class BaseUser {
   @ApiProperty()
-  id?: string;
+  id?: number;
 
   @ApiProperty()
   username?: string;
@@ -11,7 +11,7 @@ export class BaseUser {
 
   @ApiProperty()
   password: string;
-  
+
   @ApiProperty()
   confirmPassword?: string;
 }

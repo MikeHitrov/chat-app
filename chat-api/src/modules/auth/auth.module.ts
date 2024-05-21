@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from 'src/modules/entities/user.entity';
+import { User } from 'src/modules/entities/user.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
 import { configService } from '../../config/config.service';
@@ -12,7 +12,7 @@ import { configService } from '../../config/config.service';
 @Module({
   imports: [
     UsersModule,
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([User]),
     JwtModule.register({
       global: true,
       secret: configService.getValue('JWT_SECRET'),

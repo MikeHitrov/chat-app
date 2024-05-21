@@ -39,7 +39,7 @@ class ConfigService {
       password: this.getValue('POSTGRES_PASSWORD'),
       database: this.getValue('POSTGRES_DATABASE'),
 
-      entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+      entities: [join(__dirname, '../modules/entites/**/', '*.entity.{ts,js}')],
 
       migrationsTableName: 'migration',
 
